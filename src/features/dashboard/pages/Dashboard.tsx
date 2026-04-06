@@ -61,14 +61,17 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 			</button>
 			<div className="flex min-h-screen">
 
-				{/* Botão de menu hamburguer visível apenas em telas pequenas */}
-				<button
-					className="md:hidden fixed top-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center bg-primary text-white shadow-lg"
-					onClick={() => setSidebarOpen(true)}
-					aria-label="Abrir menu"
-				>
-					<i className="ri-menu-line text-2xl"></i>
-				</button>
+
+				{/* Botão de menu hamburguer visível apenas em telas pequenas e quando o menu não está aberto */}
+				{!sidebarOpen && (
+					<button
+						className="md:hidden fixed top-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center bg-primary text-white shadow-lg"
+						onClick={() => setSidebarOpen(true)}
+						aria-label="Abrir menu"
+					>
+						<i className="ri-menu-line text-2xl"></i>
+					</button>
+				)}
 
 				{/* Sidebar mobile overlay */}
 				{sidebarOpen && (
