@@ -2,12 +2,18 @@
 import { useTheme } from '../../../context/ThemeContext';
 import { useState } from 'react';
 
-export default function Dashboard() {
+type DashboardProps = {
+	user: {
+		nome: string;
+		email: string;
+		avatar: string;
+	};
+	onLogout?: () => void;
+};
+
+export default function Dashboard({ user, onLogout }: DashboardProps) {
 	const { theme, toggleTheme } = useTheme();
 	const [sidebarActive, setSidebarActive] = useState('Dashboard');
-
-	// Dados mockados para exibição
-	const user = { nome: 'João Silva', email: 'joao@email.com', avatar: 'https://image.qwenlm.ai/public_source/db6f2ca3-629d-4808-b32b-bff5e7b10b0f/17e0a6d00-c208-46be-96c4-883c326c17b3.png' };
 	const stats = [
 		{ label: 'Saldo Total', value: 'R$ 45.230,00', icon: 'ri-wallet-3-fill', color: 'primary', percent: '+12.5%', percentColor: 'text-secondary' },
 		{ label: 'Entradas', value: 'R$ 12.450,00', icon: 'ri-arrow-down-circle-fill', color: 'secondary', percent: '+8.2%', percentColor: 'text-secondary' },
@@ -92,7 +98,7 @@ export default function Dashboard() {
 					{/* Header */}
 					<header className="flex justify-between items-center mb-8">
 						<div>
-							<h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Bom dia, João! 👋</h2>
+							<h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Bom dia, {user.nome}! 👋</h2>
 							<p className="text-gray-500 dark:text-gray-400">Aqui está o resumo da sua conta</p>
 						</div>
 						<div className="flex items-center space-x-4">
@@ -105,6 +111,15 @@ export default function Dashboard() {
 							<button className="btn-primary text-white px-6 py-2 rounded-lg font-medium">
 								<i className="ri-add-line mr-2"></i>Nova Transação
 							</button>
+							{onLogout && (
+								<button
+									onClick={onLogout}
+									className="ml-2 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition-all"
+									title="Sair da conta"
+								>
+									<i className="ri-logout-box-r-line mr-1"></i> Sair
+								</button>
+							)}
 						</div>
 					</header>
 					{/* Stats Cards */}
