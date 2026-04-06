@@ -44,12 +44,19 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 	return (
 		<div className="bg-bgLight dark:bg-bgDark min-h-screen transition-colors duration-300">
 			{/* Botão de tema */}
+			{/* Botão de tema fixo no canto inferior direito */}
 			<button
 				onClick={toggleTheme}
-				className="dark-mode-toggle w-12 h-12 gradient-card rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all fixed top-5 right-5 z-50"
+				className={
+					`fixed right-6 bottom-6 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all border-2 shadow-lg ` +
+					(theme === 'dark'
+						? 'bg-slate-800 border-indigo-500 hover:bg-indigo-700'
+						: 'bg-indigo-100 border-indigo-300 hover:bg-indigo-200')
+				}
 				aria-label="Alternar tema"
+				title={theme === 'dark' ? 'Tema claro' : 'Tema escuro'}
 			>
-				<i className={`ri-${theme === 'dark' ? 'sun' : 'moon'}-line text-white text-xl`} />
+				<i className={`ri-${theme === 'dark' ? 'sun' : 'moon'}-line ${theme === 'dark' ? 'text-yellow-300' : 'text-indigo-500'} text-2xl`} />
 			</button>
 			<div className="flex min-h-screen">
 				{/* Sidebar */}
