@@ -14,6 +14,7 @@ type DashboardProps = {
 export default function Dashboard({ user, onLogout }: DashboardProps) {
 	const { theme, toggleTheme } = useTheme();
 	const [sidebarActive, setSidebarActive] = useState('Dashboard');
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const stats = [
 		{ label: 'Saldo Total', value: 'R$ 45.230,00', icon: 'ri-wallet-3-fill', color: 'primary', percent: '+12.5%', percentColor: 'text-secondary' },
 		{ label: 'Entradas', value: 'R$ 12.450,00', icon: 'ri-arrow-down-circle-fill', color: 'secondary', percent: '+8.2%', percentColor: 'text-secondary' },
@@ -59,8 +60,80 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 				<i className={`ri-${theme === 'dark' ? 'sun' : 'moon'}-line ${theme === 'dark' ? 'text-yellow-300' : 'text-indigo-500'} text-2xl`} />
 			</button>
 			<div className="flex min-h-screen">
-				{/* Sidebar */}
-				<aside className="sidebar w-64 bg-cardLight dark:bg-cardDark shadow-lg fixed h-full z-50 transition-colors duration-300">
+
+				{/* Botão de menu hamburguer visível apenas em telas pequenas */}
+				<button
+					className="md:hidden fixed top-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center bg-primary text-white shadow-lg"
+					onClick={() => setSidebarOpen(true)}
+					aria-label="Abrir menu"
+				>
+					<i className="ri-menu-line text-2xl"></i>
+				</button>
+
+				{/* Sidebar mobile overlay */}
+				{sidebarOpen && (
+					<>
+						<div
+							className="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"
+							onClick={() => setSidebarOpen(false)}
+							aria-label="Fechar menu"
+						></div>
+						<aside className="sidebar w-64 bg-cardLight dark:bg-cardDark shadow-lg fixed h-full z-50 transition-all duration-300 md:hidden animate-slide-in-left">
+							<div className="p-6">
+								<div className="flex items-center space-x-3 mb-8">
+									<div className="w-10 h-10 gradient-card rounded-lg flex items-center justify-center">
+										<i className="ri-bank-line text-white text-xl"></i>
+									</div>
+									<h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">BancoDigital</h1>
+								</div>
+								<nav className="space-y-2">
+									{['Dashboard', 'Contas', 'Transferências', 'Pagamentos', 'Investimentos', 'Configurações'].map((item) => (
+										<button
+											key={item}
+											className={`sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-200 w-full text-left ${sidebarActive === item ? 'active' : ''}`}
+											onClick={() => {
+												setSidebarActive(item);
+												setSidebarOpen(false);
+											}}
+										>
+											<i className={
+												item === 'Dashboard' ? 'ri-dashboard-line text-lg' :
+												item === 'Contas' ? 'ri-wallet-3-line text-lg' :
+												item === 'Transferências' ? 'ri-exchange-line text-lg' :
+												item === 'Pagamentos' ? 'ri-bill-line text-lg' :
+												item === 'Investimentos' ? 'ri-pie-chart-line text-lg' :
+												'ri-settings-4-line text-lg'
+											}></i>
+											<span>{item}</span>
+										</button>
+									))}
+								</nav>
+							</div>
+							<div className="absolute bottom-0 w-full p-6">
+								<div className="glass-effect rounded-xl p-4">
+									<div className="flex items-center space-x-3">
+										<img src={user.avatar} alt="User" className="w-10 h-10 rounded-full object-cover" />
+										<div>
+											<p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{user.nome}</p>
+											<p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							{/* Botão para fechar o menu */}
+							<button
+								className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+								onClick={() => setSidebarOpen(false)}
+								aria-label="Fechar menu"
+							>
+								<i className="ri-close-line text-2xl"></i>
+							</button>
+						</aside>
+					</>
+				)}
+
+				{/* Sidebar desktop */}
+				<aside className="sidebar w-64 bg-cardLight dark:bg-cardDark shadow-lg fixed h-full z-50 transition-colors duration-300 hidden md:block">
 					<div className="p-6">
 						<div className="flex items-center space-x-3 mb-8">
 							<div className="w-10 h-10 gradient-card rounded-lg flex items-center justify-center">
