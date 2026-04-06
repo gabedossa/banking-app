@@ -45,7 +45,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 	return (
 		<div className="bg-bgLight dark:bg-bgDark min-h-screen transition-colors duration-300">
 			{/* Botão de tema */}
-			{/* Botão de tema fixo no canto inferior direito */}
+			{/* Botão de tema fixo no canto inferior direito quando for mobile */}
 			<button
 				onClick={toggleTheme}
 				className={
