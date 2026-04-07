@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
 import { useAuthStore } from '@/features/auth/store/auth-store'
+import { authService } from '@/features/auth/services/auth-service'
 import { useTheme } from '@/context/ThemeContext'
-
-const CREDENTIALS = {
-  email: 'testerson@teste.com',
-  password: 'adm123',
-}
 
 export default function Login() {
   const { theme, toggleTheme } = useTheme()
@@ -16,24 +13,24 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: authService.login,
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.token)
+      login()
+      navigate('/dashboard')
+    },
+  })
 
   function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    setTimeout(() => {
-      if (email === CREDENTIALS.email && password === CREDENTIALS.password) {
-        login()
-        navigate('/dashboard')
-      } else {
-        setError('E-mail ou senha inválidos.')
-        setLoading(false)
-      }
-    }, 800)
+    mutate({ email, password })
   }
+
+  const errorMessage = error
+    ? 'E-mail ou senha inválidos.'
+    : null
 
   return (
     <div className="min-h-screen flex bg-slate-100 dark:bg-slate-950 transition-colors duration-300">
@@ -118,16 +115,16 @@ export default function Login() {
               </button>
             </div>
 
-            {error && (
-              <p className="text-sm text-red-500 text-center">{error}</p>
+            {errorMessage && (
+              <p className="text-sm text-red-500 text-center">{errorMessage}</p>
             )}
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={isPending}
               className="w-full bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white rounded-2xl py-3 font-semibold text-sm shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-indigo-500"
             >
-              {loading ? 'Entrando...' : 'Entrar'}
+              {isPending ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
         </div>
