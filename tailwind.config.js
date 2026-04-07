@@ -45,6 +45,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        brand: {
+          primary: '#6366f1',
+          secondary: '#10b981',
+        },
       },
     },
   },

@@ -1,4 +1,4 @@
-import type { QuickAction } from '../../data/dashboard'
+import type { QuickAction } from '@/data/dashboard'
 
 type ActionsProps = {
   actions: QuickAction[]
@@ -24,7 +24,7 @@ export function Actions({ actions }: ActionsProps) {
     <section className="rounded-3xl bg-white p-6 shadow-soft dark:bg-slate-900">
       <h3 className="mb-6 text-lg font-semibold text-slate-900 dark:text-white">Ações Rápidas</h3>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {actions.map((action) => {
           const accent = accentMap[action.accent]
 
@@ -34,15 +34,10 @@ export function Actions({ actions }: ActionsProps) {
               type="button"
               className={`group flex flex-col items-center rounded-3xl bg-slate-50 p-4 text-center transition duration-300 hover:-translate-y-1 dark:bg-slate-800 ${accent.wrapper}`}
             >
-              <div
-                className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full transition duration-300 ${accent.icon}`}
-              >
+              <div className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full transition duration-300 ${accent.icon}`}>
                 <i className={`${action.icon} text-xl`} />
               </div>
-
-              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                {action.label}
-              </span>
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{action.label}</span>
             </button>
           )
         })}

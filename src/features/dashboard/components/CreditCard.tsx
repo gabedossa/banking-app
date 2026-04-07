@@ -3,10 +3,7 @@ export function CreditCard() {
     <section className="rounded-3xl bg-white p-6 shadow-soft dark:bg-slate-900">
       <div className="mb-6 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Meus Cartões</h3>
-        <button
-          type="button"
-          className="text-sm font-semibold text-brand-primary transition hover:opacity-80"
-        >
+        <button type="button" className="text-sm font-semibold text-brand-primary transition hover:opacity-80">
           Ver Todos
         </button>
       </div>
@@ -20,15 +17,12 @@ export function CreditCard() {
             <span className="text-sm font-medium text-white/80">BancoDigital Black</span>
             <i className="ri-visa-line text-3xl" />
           </div>
-
           <p className="mb-6 text-xl tracking-[0.35em] sm:text-2xl">**** **** **** 4589</p>
-
           <div className="flex items-end justify-between gap-6">
             <div>
               <p className="text-xs uppercase text-white/70">Titular</p>
               <p className="text-sm font-semibold">João Silva</p>
             </div>
-
             <div>
               <p className="text-xs uppercase text-white/70">Validade</p>
               <p className="text-sm font-semibold">12/29</p>
@@ -42,7 +36,6 @@ export function CreditCard() {
           <p className="text-sm text-slate-500 dark:text-slate-400">Limite Disponível</p>
           <p className="text-xl font-bold text-slate-900 dark:text-white">R$ 15.000,00</p>
         </div>
-
         <div className="sm:text-right">
           <p className="text-sm text-slate-500 dark:text-slate-400">Fatura Atual</p>
           <p className="text-xl font-bold text-red-500 dark:text-red-400">R$ 2.340,00</p>

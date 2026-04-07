@@ -1,29 +1,35 @@
 import { create } from 'zustand'
 
-type User = {
+export type User = {
+  name: string
   email: string
+  avatar: string
+}
+
+const MOCK_USER: User = {
+  name: 'Testerson',
+  email: 'testerson@email.com',
+  avatar: 'https://ui-avatars.com/api/?name=Testerson&background=6366F1&color=fff&bold=true',
 }
 
 type AuthState = {
   user: User | null
   isAuthenticated: boolean
-  login: (email: string) => void
+  login: () => void
   logout: () => void
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  isAuthenticated: false,
+  user: localStorage.getItem('auth') === 'true' ? MOCK_USER : null,
+  isAuthenticated: localStorage.getItem('auth') === 'true',
 
-  login: (email) =>
-    set({
-      user: { email },
-      isAuthenticated: true,
-    }),
+  login: () => {
+    localStorage.setItem('auth', 'true')
+    set({ user: MOCK_USER, isAuthenticated: true })
+  },
 
-  logout: () =>
-    set({
-      user: null,
-      isAuthenticated: false,
-    }),
+  logout: () => {
+    localStorage.removeItem('auth')
+    set({ user: null, isAuthenticated: false })
+  },
 }))
